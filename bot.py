@@ -55,8 +55,8 @@ class DallEDiscordBot(commands.Bot):
     Creates a discord bot.
     """
 
-    def __init__(self, command_prefix, self_bot) -> None:
-        commands.Bot.__init__(self, command_prefix=command_prefix, self_bot=self_bot)
+    def __init__(self, command_prefix, intents, self_bot) -> None:
+        commands.Bot.__init__(self, command_prefix=command_prefix, intents=intents, self_bot=self_bot)
         self.add_commands()
 
     def create_embed(self, guild) -> Embed:
@@ -204,7 +204,14 @@ async def background_task() -> None:
     """
     pass
 
+intents = discord.Intents.all()
+intents.members = True
 
-bot = DallEDiscordBot(command_prefix=c['bot_prefix'], self_bot=False)
-bot.loop.create_task(background_task())
-bot.run(c['discord_token'])
+bot = DallEDiscordBot(command_prefix=c['bot_prefix'], intents=intents, self_bot=False)
+
+async def main():
+    async with bot:
+        bot.loop.create_task(background_task())
+        await bot.start(c['discord_token'])
+
+asyncio.run(main())
