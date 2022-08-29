@@ -60,9 +60,6 @@ class DallEDiscordBot(discord.Client):
         :return:
         """
         await self.wait_until_ready()
-
-	# await bot.change_presence(activity=discord.Game(name='Making "art"'))
-
         if not self.synced:
             await tree.sync()
             self.synced = True
@@ -150,8 +147,7 @@ async def self(interaction: discord.Interaction, query: str):
         return
 
     #check if not in specified channel
-    if (interaction.channel.id in [358699161551634442, 662145481908158513]):
-        await interaction.response.send_message("I don't fink so, bruv", ephemeral=True)
+    if (interaction.channel.id not in [909957374045995038, 344317039160197124]):
         return
 
     print(f"[-] {interaction.user.nick} called !dalle {query}")
@@ -189,6 +185,7 @@ async def self(interaction: discord.Interaction, query: str):
     finally:
         # Delete the author folder in ./generated with author id, if exists
         del_dir(f"./generated/{interaction.user.id}")
+
 
 async def main():
     async with bot:
