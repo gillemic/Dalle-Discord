@@ -156,7 +156,7 @@ async def self(interaction: discord.Interaction, query: str):
 
     #check if conor or justin
     if (interaction.user.id in [105884992055349248, 415407957371781123]):
-	await interaction.response.send_message("Nope.")
+	await interaction.response.send_message("Nope.", ephemeral=True)
 	return
 
     #check if banned words
