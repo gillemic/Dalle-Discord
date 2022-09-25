@@ -150,6 +150,16 @@ async def self(interaction: discord.Interaction, query: str):
     if (interaction.channel.id not in [909957374045995038, 344317039160197124]):
         return
 
+    #check if conor or justin
+    if (interaction.author.id in [105884992055349248, 415407957371781123]):
+        await interaction.response.send_message("Nope.")
+        return
+
+    #check if banned words
+    if ((query.find("blackface") != -1) or (query.find("black face") != -1)):
+        await interaction.response.send_message("Nope.", ephemeral=True)
+        return
+
     print(f"[-] {interaction.user.nick} called !dalle {query}")
 
     message = await interaction.response.defer()

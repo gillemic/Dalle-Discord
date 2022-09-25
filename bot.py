@@ -155,7 +155,7 @@ async def self(interaction: discord.Interaction, query: str):
         return
 
     #check if conor or justin
-    if (interaction.author.id in [105884992055349248, 415407957371781123]):
+    if (interaction.user.id in [105884992055349248, 415407957371781123]):
 	await interaction.response.send_message("Nope.")
 	return
 
