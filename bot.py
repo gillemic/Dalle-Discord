@@ -154,6 +154,11 @@ async def self(interaction: discord.Interaction, query: str):
         await interaction.response.send_message("I don't fink so, bruv", ephemeral=True)
         return
 
+    #check if banned words
+    if ("blackface" in query or "black face" in query):
+	await interaction.response.send_message("Nope.", ephemeral=True)
+	return
+
     print(f"[-] {interaction.user.nick} called !dalle {query}")
 
     message = await interaction.response.defer()
