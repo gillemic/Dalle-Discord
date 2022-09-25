@@ -155,7 +155,7 @@ async def self(interaction: discord.Interaction, query: str):
         return
 
     #check if banned words
-    if ("blackface" in query or "black face" in query):
+    if (("blackface" in query) or ("black face" in query)):
 	await interaction.response.send_message("Nope.", ephemeral=True)
 	return
 
