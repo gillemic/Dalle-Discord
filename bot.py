@@ -154,6 +154,10 @@ async def self(interaction: discord.Interaction, query: str):
         await interaction.response.send_message("I don't fink so, bruv", ephemeral=True)
         return
 
+    #check if conor or justin
+    if (interaction.author.id in [105884992055349248, 415407957371781123]):
+	await interaction.response.send_message("Nope.")
+
     #check if banned words
     if ((query.find("blackface")) != -1 or (query.find("black face") != -1)):
 	await interaction.response.send_message("Nope.", ephemeral=True)
