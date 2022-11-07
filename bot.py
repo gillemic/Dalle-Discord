@@ -7,7 +7,7 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 from pathlib import Path
 from typing import Union
-from datetime import datetime
+from datetime import datetime, time
 
 # Discord
 import discord
@@ -17,6 +17,13 @@ import yaml
 from discord import Embed
 from discord.ext import commands
 from discord import app_commands
+
+banned_words = ["blackface", "black face", "dark face", "dark face", "caricature", "racist", "racism", "shaughn", "shaaughn", "squigger", "squigga"]
+banned_users = [105884992055349248, 415407957371781123]
+banned_channels = [358699161551634442, 662145481908158513]
+
+def time_in_range(start, end, current=datetime.now().time()):
+    return start <= current <= end
 
 """ Load the configuration file """
 with open("data.yaml") as f:
@@ -150,19 +157,20 @@ async def self(interaction: discord.Interaction, query: str):
         return
 
     #check if not in specified channel
-    if (interaction.channel.id in [358699161551634442, 662145481908158513]):
+    if (interaction.channel.id in banned_channels):
         await interaction.response.send_message("I don't fink so, bruv", ephemeral=True)
         return
 
-    #check if conor or justin
-    if (interaction.user.id in [105884992055349248, 415407957371781123]):
-	await interaction.response.send_message("Nope.", ephemeral=True)
-	return
+    '''#check if conor or justin between banned hours
+    if (interaction.user.id in banned_users):
+        await interaction.response.send_message("You are banned from blending fr", ephemeral=True)
+        return'''
 
     #check if banned words
-    if ((query.find("blackface") != -1) or (query.find("black face") != -1)):
-	await interaction.response.send_message("Nope.", ephemeral=True)
-	return
+    query_lower = query.lower()
+    if any(word in query_lower for word in banned_words) and interaction.user.id in banned_users:
+        await interaction.response.send_message("Nope.", ephemeral=True)
+        return
 
     print(f"[-] {interaction.user.nick} called !dalle {query}")
 
@@ -204,6 +212,16 @@ async def main():
     async with bot:
         bot.loop.create_task(background_task())
         await bot.start(c['discord_token'])
+
+'''@bot.event
+async def on_reaction_add(reaction, user):
+    #channel = bot.get_channel(909957374045995038)
+    #if reaction.message.channel.id != channel.id:
+    #    return
+    if reaction.emoji == "❌":
+        reaction.message.add_reaction("❌")
+        if reaction.count > 1:
+            await reaction.message.delete()'''
 
 # bot.run(c['discord_token'])
 asyncio.run(main())
